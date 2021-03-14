@@ -1,11 +1,11 @@
 {
-    "name": "api-development",
+    "name": "nbot-api",
     "version": "0.0.1",
     "description": "Standard base Docker development settings",
     "author": "Allan Nubling <nubling@gmail.com>",
     "license": "MIT",
-    "repository": "https://github.com/allan-nubling/api-development",
-    "main": "src/app.ts",
+    "repository": "https://github.com/allan-nubling/nbot-api.git",
+    "main": "src/server.ts",
     "scripts": {
         "test": "jest",
         "lint": "eslint --fix ./src/*",
