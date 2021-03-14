@@ -4,7 +4,7 @@ WORKDIR /home/node/app
 
 COPY package*.json .
 
-COPY build ./build
+COPY build ./build/
 
 ENV NODE_ENV=production 
 
