@@ -9,8 +9,9 @@
     "scripts": {
         "test": "jest",
         "lint": "eslint --fix ./src/*",
-        "watch": "ts-node-dev -r dotenv/config -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
-        "build": "babel src --extensions \".js,.ts\" --out-dir build --copy-files --no-copy-ignored"
+        "watch": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+        "build": "babel src --extensions \".js,.ts\" --out-dir build --copy-files --no-copy-ignored",
+        "start": "npm run build && pm2 start build/server.js"
     },
     "devDependencies": {
         "@babel/cli": "^7.13.10",
@@ -27,7 +28,6 @@
         "@typescript-eslint/eslint-plugin": "^4.16.1",
         "@typescript-eslint/parser": "^4.16.1",
         "babel-plugin-module-resolver": "^4.1.0",
-        "dotenv": "^8.2.0",
         "eslint": "^7.21.0",
         "eslint-config-airbnb-base": "^14.2.1",
         "eslint-config-prettier": "^8.1.0",
@@ -45,6 +45,7 @@
     "dependencies": {
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
-        "express": "^4.17.1"
+        "express": "^4.17.1",
+        "dotenv": "^8.2.0"
     }
 }

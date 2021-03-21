@@ -1,5 +1,8 @@
+import dotenv from 'dotenv'
+
 import app from '@config/app'
-import 'dotenv'
+
+dotenv.config()
 
 const { PORT, NODE_ENV } = process.env
 
