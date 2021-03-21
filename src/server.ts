@@ -1,6 +1,8 @@
 import app from '@config/app'
 
-app.listen(3000, () => {
+const { PORT, NODE_ENV } = process.env
+
+app.listen(PORT, () => {
     // eslint-disable-next-line no-console
-    console.log(`⚡️[server]: Server is running.`)
+    console.log(`⚡️[server]: Server is running ${NODE_ENV === 'development' && `on http://127.0.0.1:${PORT}`}`)
 })
