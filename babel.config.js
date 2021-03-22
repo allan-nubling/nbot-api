@@ -19,6 +19,7 @@ module.exports = {
                     '@jobs': './src/jobs',
                     '@services': './src/services',
                     '@models': './src/models',
+                    '@repositories': './src/repositories',
                     '@utils': './src/utils',
                     '@controllers': './src/controllers',
                     '@middlewares': './src/middlewares'

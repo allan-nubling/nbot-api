@@ -16,6 +16,7 @@
             "@jobs/*": ["jobs/*"],
             "@services/*": ["services/*"],
             "@models/*": ["models/*"],
+            "@repositories/*": ["repositories/*"],
             "@utils/*": ["utils/*"],
             "@controllers/*": ["controllers/*"],
             "@middlewares/*": ["middlewares/*"]

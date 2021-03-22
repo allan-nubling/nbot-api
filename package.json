@@ -9,9 +9,9 @@
     "scripts": {
         "test": "jest",
         "lint": "eslint --fix ./src/*",
-        "watch": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+        "watch": "ts-node-dev -r dotenv/config -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
         "build": "babel src --extensions \".js,.ts\" --out-dir build --copy-files --no-copy-ignored",
-        "start": "npm run build && pm2 start build/server.js"
+        "start": "npm run build && node -r dotenv/config build/server.js"
     },
     "devDependencies": {
         "@babel/cli": "^7.13.10",
@@ -43,9 +43,14 @@
         "typescript": "^4.2.3"
     },
     "dependencies": {
+        "axios": "^0.21.1",
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
         "express": "^4.17.1",
-        "dotenv": "^8.2.0"
+        "mysql2": "^2.2.5",
+        "reflect-metadata": "^0.1.13",
+        "typeorm": "^0.2.31",
+        "typeorm-naming-strategies": "^2.0.0"
     }
 }

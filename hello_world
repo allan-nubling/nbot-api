@@ -1,7 +1,0 @@
-#!/bin/bash
-
-DIR=/node_modules
-if [ -d "$DIR" ]; then
-    printf '%s\n' "Removing Lock ($DIR)"
-    rm -rf "$DIR"
-fi

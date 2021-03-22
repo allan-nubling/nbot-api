@@ -1,6 +1,7 @@
 import { urlencoded, json } from 'body-parser'
 import cors from 'cors'
 import express from 'express'
+
 import handleErrors from '@middlewares/handleErrors'
 
 import routes from '../routes'

@@ -1,21 +1,22 @@
 import { NextFunction, Request, Response, Router } from 'express'
 
-import ExampleController from '@controllers/ExampleController'
+import ExampleController from '@controllers/Example.controllers'
 import { NotFound } from '@utils/errors'
+
+import paymentRoute from './payment.routes'
 
 const { NODE_ENV } = process.env
 const routes = Router()
+
+routes.use('/payment', paymentRoute)
 
 routes.get('/', async (_req: Request, res: Response) => {
     res.send('⚡️[server]: Server is running')
 })
 
-routes.all('/webhook', async (req: Request, res: Response) => {
-    console.log(req.method)
+routes.post('/webhook', async (req: Request, res: Response) => {
     console.log('body', req.body)
-    console.log('query', req.query)
-    console.log(NODE_ENV)
-    res.send(NODE_ENV)
+    res.send()
 })
 
 routes.get('/env', async (req: Request, res: Response) => {
