@@ -1,6 +1,8 @@
+import { OrderStatus } from './OrderModel.types'
+
 export interface IOrderCreateResponse {
     id: string
-    status: string
+    status: OrderStatus
     checkoutUrl: string
 }
 

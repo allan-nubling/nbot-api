@@ -8,6 +8,6 @@ paymentRoute.post('/create', PaymentController.create)
 
 paymentRoute.post('/event', PaymentController.event)
 
-paymentRoute.post('/capture', PaymentController.capture)
+// paymentRoute.post('/capture', PaymentController.capture)
 
 export default paymentRoute

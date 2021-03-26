@@ -4,7 +4,7 @@ import { GeneralError } from '@utils/errors'
 
 const { NODE_ENV } = process.env
 
-export default function handleErrors(err: Error, _req: Request, res: Response, _next: NextFunction): Promise<void> {
+export default function handleErrors(err: Error, _req: Request, res: Response, _next: NextFunction): void {
     if (err instanceof GeneralError) {
         res.status(err.getCode()).json({
             status: 'error',

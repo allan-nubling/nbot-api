@@ -1,9 +1,10 @@
 import axios, { AxiosInstance } from 'axios'
-import { IOrderCaptureResponse, IOrderCreateResponse } from 'types/Payments.types'
+import { OrderStatus } from 'types/OrderModel.types'
+import { IOrderCaptureResponse, IOrderCreateResponse } from 'types/PaymentClient.types'
 
 const { CLIENT_ENV, CLIENT_ID, CLIENT_SECRET } = process.env
 
-export class Payments {
+export class PaymentClient {
     private apiUrl = CLIENT_ENV === 'live' ? 'https://api.paypal.com' : 'https://api.sandbox.paypal.com'
 
     private webUrl = CLIENT_ENV === 'live' ? 'https://www.paypal.com' : 'https://www.sandbox.paypal.com'
@@ -47,12 +48,20 @@ export class Payments {
                             value: `${price}`
                         }
                     }
-                ]
+                ],
+                application_context: {
+                    brand_name: 'nBot',
+                    locale: 'pt-BR',
+                    shipping_preference: 'NO_SHIPPING',
+                    user_action: 'PAY_NOW',
+                    return_url: 'https://www.nbot.com.br'
+                }
             })
             .then(({ data }) => {
-                const { id, status, links } = data
-                const checkoutUrl = links.filter(({ rel }) => rel === 'approve').href
-                return { id, status, checkoutUrl }
+                const { id, status: _status, links } = data
+                const [checkoutUrl] = links.filter(({ rel }) => rel === 'approve')
+                const status = _status === 'CREATED' && OrderStatus.pending
+                return { id, status, checkoutUrl: checkoutUrl.href }
             })
     }
 
@@ -62,13 +71,17 @@ export class Payments {
             trasactionId: data.id,
             capture: {
                 grossAmount: parseFloat(
-                    data.purchase_units[0].payments.captures.seller_receivable_breakdown.gross_amount
+                    data.purchase_units[0].payments.captures[0].seller_receivable_breakdown.gross_amount.value
                 ),
-                paypalFee: parseFloat(data.purchase_units[0].payments.captures.seller_receivable_breakdown.paypal_fee),
-                netAmount: parseFloat(data.purchase_units[0].payments.captures.seller_receivable_breakdown.net_amount)
+                paypalFee: parseFloat(
+                    data.purchase_units[0].payments.captures[0].seller_receivable_breakdown.paypal_fee.value
+                ),
+                netAmount: parseFloat(
+                    data.purchase_units[0].payments.captures[0].seller_receivable_breakdown.net_amount.value
+                )
             },
             payer: {
-                name: data.payer.name.given_name + data.payer.name.surname,
+                name: `${data.payer.name.given_name} ${data.payer.name.surname}`,
                 email: data.payer.email_address
             }
         }))
