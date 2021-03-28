@@ -1,11 +1,11 @@
-import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from 'typeorm'
 
 import Order from './Order'
 import Trial from './Trial'
 import User from './User'
 
-@Entity()
-export default class Character {
+@Entity({ name: 'characters' })
+export default class Character extends BaseEntity {
     @PrimaryColumn()
     mnk: string
 
@@ -29,4 +29,10 @@ export default class Character {
 
     @OneToOne(_type => Trial, trial => trial.character)
     trial: Trial
+
+    constructor(params: { mnk: string; name: string }) {
+        super()
+        this.mnk = params?.mnk
+        this.name = params?.name
+    }
 }

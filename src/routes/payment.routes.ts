@@ -1,10 +1,10 @@
 import { Router } from 'express'
 
-import PaymentController from '@controllers/PaymentController'
+import PaymentController from '@controllers/Payment.controller'
 
 const paymentRoute = Router()
 
-paymentRoute.post('/create', PaymentController.create)
+paymentRoute.get('/create', PaymentController.create)
 
 paymentRoute.post('/event', PaymentController.event)
 

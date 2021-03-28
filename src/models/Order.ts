@@ -12,7 +12,7 @@ import { OrderStatus } from 'types/OrderModel.types'
 
 import Character from './Character'
 
-@Entity()
+@Entity({ name: 'orders' })
 export default class Order extends BaseEntity {
     @PrimaryColumn()
     id: string

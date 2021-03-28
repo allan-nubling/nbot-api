@@ -1,7 +1,9 @@
 import { Request, Response } from 'express'
+import { EntityNotFoundError, getRepository } from 'typeorm'
 import { HandleErrors } from 'types/Controllers.types'
 import { EventType, IEventRequestBody } from 'types/PaymentController.types'
 
+import Character from '@models/Character'
 import Order from '@models/Order'
 import { PaymentClient } from '@services/PaymentClient'
 import { BadRequest, NotFound } from '@utils/errors'
@@ -11,7 +13,14 @@ export default class PaymentController {
     static async create(req: Request, resp: Response): Promise<void> {
         const { mnk, days } = req.query as Record<string, string>
 
-        // TODO: Get character info
+        await getRepository(Character)
+            .findOneOrFail({ where: { mnk } })
+            .catch(err => {
+                if (err instanceof EntityNotFoundError) {
+                    throw new BadRequest('character not found')
+                }
+                throw err
+            })
 
         // TODO: Generate Order Price
         let price: number
@@ -32,7 +41,7 @@ export default class PaymentController {
             fullPrice: price,
             price
         })
-        order.save()
+        await order.save()
 
         resp.redirect(checkoutUrl)
     }
@@ -44,9 +53,19 @@ export default class PaymentController {
         const payment = new PaymentClient()
 
         if (event === EventType.OrderApproved) {
-            // Update
             const response = await payment.captureOrder(resource.id)
-            // Generate KEY
+
+            const order = await getRepository(Order).findOne({ where: { id: resource.id } })
+            order.transactionId = response.trasactionId
+            order.capturedPrice = response.capture.netAmount
+            order.payerName = response.payer.name
+            order.payerEmail = response.payer.email
+            await order.save()
+
+            const character = await getRepository(Character).findOne({ where: { mnk: order.mnk } })
+            const expDate = character.expirationDate
+            character.expirationDate = new Date(expDate.setDate(expDate.getDate() + order.days))
+            await character.save()
         } else {
             throw new NotFound('event not found')
         }

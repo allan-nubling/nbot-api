@@ -14,7 +14,7 @@ export default class Database {
             database: NODE_ENV === 'development' ? 'development' : 'nbot',
             entities: [`${__dirname}/../models/*.{ts,js}`],
             synchronize: false,
-            logging: NODE_ENV === 'development' && JSON.parse(DB_DEBUG),
+            logging: NODE_ENV === 'development' && DB_DEBUG && JSON.parse(DB_DEBUG),
             namingStrategy: new SnakeNamingStrategy()
         }).catch(err => {
             console.log(err)

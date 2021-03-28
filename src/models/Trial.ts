@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'ty
 
 import Character from './Character'
 
-@Entity()
+@Entity({ name: 'trials' })
 export default class Trial {
     @PrimaryGeneratedColumn()
     id: number

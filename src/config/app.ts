@@ -2,9 +2,12 @@ import { urlencoded, json } from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 
+import Database from '@config/database'
 import handleErrors from '@middlewares/handleErrors'
 
 import routes from '../routes'
+
+Database.connect()
 
 const app = express()
 

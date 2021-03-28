@@ -2,7 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 import Character from './Character'
 
-@Entity()
+@Entity({ name: 'users' })
 export default class User {
     @PrimaryGeneratedColumn()
     id: number
